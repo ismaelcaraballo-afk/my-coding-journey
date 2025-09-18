@@ -1,0 +1,523 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Coding Journey</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #0c0c0c 0%, #1a1a2e 50%, #16213e 100%);
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        /* Header */
+        header {
+            padding: 60px 0;
+            text-align: center;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+        .stars {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: transparent;
+        }
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+        }
+        h1 {
+            font-size: 3em;
+            margin-bottom: 10px;
+            font-weight: 300;
+            z-index: 10;
+            position: relative;
+        }
+        .tagline {
+            font-size: 1.3em;
+            opacity: 0.9;
+            margin-bottom: 30px;
+            z-index: 10;
+            position: relative;
+        }
+        .cta-button {
+            display: inline-block;
+            padding: 12px 30px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            transition: transform 0.3s ease;
+            z-index: 10;
+            position: relative;
+        }
+        .cta-button:hover {
+            transform: translateY(-2px);
+        }
+        /* Navigation */
+        nav {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+        }
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+        }
+        nav a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            padding: 10px 20px;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+        }
+        nav a:hover {
+            background: #f0f0f0;
+            transform: translateY(-1px);
+        }
+        /* Main Content */
+        main {
+            padding: 60px 0;
+        }
+        .section {
+            background: white;
+            margin: 40px 0;
+            padding: 50px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+        .section:hover {
+            transform: translateY(-5px);
+        }
+        .section h2 {
+            font-size: 2.2em;
+            margin-bottom: 30px;
+            color: #1a1a2e;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+        }
+        .section h3 {
+            color: #667eea;
+            margin: 25px 0 15px 0;
+            font-size: 1.3em;
+        }
+        /* About Section */
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 40px;
+            align-items: center;
+        }
+        .profile-placeholder {
+            width: 200px;
+            height: 200px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 4em;
+            margin: 0 auto;
+        }
+        /* Projects Grid */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+        /* Card Flip Styles */
+        .flip-card {
+            background: transparent;
+            width: 100%;
+            height: 350px;
+            perspective: 1000px; /* Gives the 3D effect */
+        }
+        .flip-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.8s; /* Controls flip speed */
+            transform-style: preserve-3d; /* Keeps children in 3D space */
+        }
+        .flip-card:hover .flip-card-inner {
+            transform: rotateY(180deg);
+        }
+        .flip-card-front, .flip-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden; /* Hide back of element when turned */
+            backface-visibility: hidden;
+            border-radius: 10px;
+            padding: 30px;
+        }
+        .flip-card-front {
+            background: #f8f9fa;
+            border-left: 5px solid #667eea;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+        .flip-card-back {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            transform: rotateY(180deg);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .flip-card-back h4 {
+            color: white;
+            font-size: 1.4em;
+            margin-bottom: 15px;
+        }
+        .project-status {
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            font-weight: bold;
+            margin-top: 15px;
+        }
+        .status-completed {
+            background: #d4edda;
+            color: #155724;
+        }
+        .status-progress {
+            background: #fff3cd;
+            color: #856404;
+        }
+        .status-planned {
+            background: #d1ecf1;
+            color: #0c5460;
+        }
+        /* Learning Log */
+        .blog-post {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border-left: 4px solid #667eea;
+        }
+        .blog-post h4 {
+            color: #1a1a2e;
+            margin-bottom: 10px;
+        }
+        .blog-meta {
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 15px;
+        }
+        /* Skills */
+        .skills-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        .skill-tag {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: 500;
+        }
+        /* Footer */
+        footer {
+            background: rgba(26, 26, 46, 0.9);
+            color: white;
+            text-align: center;
+            padding: 40px 0;
+            margin-top: 60px;
+        }
+        .social-links {
+            margin-top: 20px;
+        }
+        .social-links a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        .social-links a:hover {
+            color: #667eea;
+        }
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 15px;
+            }
+            h1 {
+                font-size: 2.2em;
+            }
+            .section {
+                padding: 30px 20px;
+            }
+            .about-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            nav ul {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="stars" id="stars"></div>
+    <header>
+        <div class="container">
+            <h1>My Coding Journey</h1>
+            <p class="tagline">Exploring code, solving problems, one star at a time</p>
+            <a href="#about" class="cta-button">Start Exploring</a>
+        </div>
+    </header>
+    <nav>
+        <div class="container">
+            <ul>
+                <li><a href="#about">About</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#learning">Learning Log</a></li>
+                <li><a href="#skills">Skills</a></li>
+                <li><a href="#contact">Connect</a></li>
+            </ul>
+        </div>
+    </nav>
+    <main>
+        <div class="container">
+            <section id="about" class="section">
+                <h2>About My Journey</h2>
+                <div class="about-content">
+                    <div class="profile-placeholder">⭐</div>
+                    <div>
+                        <p>Welcome to my coding adventure! I'm documenting my journey from beginner to developer, one project at a time.</p>
+                        <p>Started with simple HTML and CSS, now exploring APIs, JavaScript, and even tracking asteroids through space. Each project teaches me something new about programming and problem-solving.</p>
+                        <p>This site itself is a learning project - I'll be updating it weekly as I grow my skills and take on new challenges.</p>
+                        <h3>What drives me:</h3>
+                        <ul>
+                            <li>Curiosity about how things work</li>
+                            <li>Love for space and astronomy</li>
+                            <li>Problem-solving mindset</li>
+                            <li>Continuous learning</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+            <section id="projects" class="section">
+                <h2>Projects</h2>
+                <p>Here are the projects I've built during my learning journey:</p>
+                <div class="projects-grid">
+                    <div class="flip-card">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">
+                                <h4>🔄 Unit Converter</h4>
+                                <p>My first interactive web application! Converts between kilometers and miles with input validation and a clean interface.</p>
+                                <span class="project-status status-completed">Completed</span>
+                            </div>
+                            <div class="flip-card-back">
+                                <h4>What I learned:</h4>
+                                <p>HTML forms, JavaScript functions, CSS styling, user input validation</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flip-card">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">
+                                <h4>📚 GitHub Tutorial Site</h4>
+                                <p>An interactive lesson teaching GitHub basics with examples, exercises, and a progress tracker.</p>
+                                <span class="project-status status-completed">Completed</span>
+                            </div>
+                            <div class="flip-card-back">
+                                <h4>What I learned:</h4>
+                                <p>Responsive design, interactive JavaScript, educational content structure</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flip-card">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">
+                                <h4>🌌 Apophis Asteroid Tracker</h4>
+                                <p>Real-time tracking of asteroid 99942 Apophis, complete with orbital data and countdown to its 2029 close approach.</p>
+                                <span class="project-status status-progress">In Progress</span>
+                            </div>
+                            <div class="flip-card-back">
+                                <h4>What I'm learning:</h4>
+                                <p>APIs, real-time data, space calculations, 3D visualizations</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flip-card">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">
+                                <h4>🎯 Future Project</h4>
+                                <p>Planning my next learning challenge based on class assignments and personal interests.</p>
+                                <span class="project-status status-planned">Planned</span>
+                            </div>
+                            <div class="flip-card-back">
+                                <h4>Ideas:</h4>
+                                <p>Weather app, task manager, or maybe something with machine learning</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section id="learning" class="section">
+                <h2>Learning Log</h2>
+                <p>Documenting what I discover along the way:</p>
+                <div class="blog-post">
+                    <h4>Building My First Interactive Website</h4>
+                    <div class="blog-meta">Week 1 • HTML, CSS, JavaScript</div>
+                    <p>Started with a simple unit converter and learned the basics of DOM manipulation. The moment when my JavaScript actually worked and converted kilometers to miles felt like magic!</p>
+                </div>
+                <div class="blog-post">
+                    <h4>Git and GitHub: Version Control Basics</h4>
+                    <div class="blog-meta">Week 2 • Git, GitHub</div>
+                    <p>Finally understanding why version control is so important. Created my first repository, learned about commits, branches, and pull requests. Still getting used to the command line but it's becoming second nature.</p>
+                </div>
+                <div class="blog-post">
+                    <h4>APIs and Real-Time Data</h4>
+                    <div class="blog-meta">Week 3 • APIs, JavaScript</div>
+                    <p>Working on the asteroid tracker taught me about fetching data from APIs. NASA's data is fascinating! Learning to handle async operations and error handling.</p>
+                </div>
+            </section>
+            <section id="skills" class="section">
+                <h2>Skills & Technologies</h2>
+                <p>What I'm learning and using in my projects:</p>
+                <div class="skills-list">
+                    <span class="skill-tag">HTML5</span>
+                    <span class="skill-tag">CSS3</span>
+                    <span class="skill-tag">JavaScript</span>
+                    <span class="skill-tag">Git & GitHub</span>
+                    <span class="skill-tag">Responsive Design</span>
+                    <span class="skill-tag">APIs</span>
+                    <span class="skill-tag">Problem Solving</span>
+                    <span class="skill-tag">Learning in Progress</span>
+                </div>
+                <h3>Currently Exploring:</h3>
+                <ul>
+                    <li>JavaScript ES6+ features</li>
+                    <li>Working with external APIs</li>
+                    <li>3D visualization libraries</li>
+                    <li>Responsive design patterns</li>
+                </ul>
+            </section>
+            <section id="contact" class="section">
+                <h2>Let's Connect</h2>
+                <p>I'm always excited to connect with fellow learners and developers!</p>
+                <p>Follow my journey and see my latest projects:</p>
+                <div style="text-align: center; margin-top: 30px;">
+                    <p><strong>Email:</strong> Ismael.caraballo@pursuit.org</p>
+                    <p><strong>GitHub:</strong> github.com/yourusername</p>
+                </div>
+            </section>
+        </div>
+    </main>
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 My Coding Journey | Built with curiosity and determination ⭐</p>
+            <div class="social-links">
+                <a href="#" target="_blank">GitHub</a>
+                <a href="#" target="_blank">LinkedIn</a>
+                <a href="#" target="_blank">Email</a>
+            </div>
+        </div>
+    </footer>
+    <script>
+        const starsContainer = document.getElementById('stars');
+        const numberOfStars = 300;
+        const stars = [];
+
+        function createStars() {
+            for (let i = 0; i < numberOfStars; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.left = Math.random() * 100 + 'vw';
+                star.style.top = Math.random() * 100 + 'vh';
+                
+                star.speed = Math.random() * 0.5 + 0.1; 
+                star.style.opacity = star.speed; 
+                star.style.width = star.speed * 2 + 'px';
+                star.style.height = star.speed * 2 + 'px';
+
+                starsContainer.appendChild(star);
+                stars.push(star);
+            }
+        }
+
+        function animateStars() {
+            for (let i = 0; i < stars.length; i++) {
+                let star = stars[i];
+                let currentLeft = parseFloat(star.style.left);
+                
+                star.style.left = (currentLeft - star.speed) + 'px';
+
+                if (currentLeft < -5) {
+                    star.style.left = '100vw';
+                }
+            }
+            requestAnimationFrame(animateStars);
+        }
+
+        document.querySelectorAll('nav a, .cta-button').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const targetId = link.getAttribute('href').substring(1);
+                const targetElement = document.getElementById(targetId);
+                if (targetElement) {
+                    targetElement.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+
+        window.addEventListener('scroll', () => {
+            const nav = document.querySelector('nav');
+            if (window.scrollY > 100) {
+                nav.style.background = 'rgba(255, 255, 255, 0.98)';
+            } else {
+                nav.style.background = 'rgba(255, 255, 255, 0.95)';
+            }
+        });
+
+        window.addEventListener('load', () => {
+            createStars();
+            animateStars();
+        });
+    </script>
+</body>
+</html>
