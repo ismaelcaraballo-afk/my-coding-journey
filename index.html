@@ -1,0 +1,1482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Coding Journey</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Special+Elite&family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Caveat:wght@400;700&family=VT323&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --ink-black: #0a0a0a;
+            --charcoal: #1a1a1a;
+            --rust: #8b4513;
+            --aged-paper: #d4c5a9;
+            --cream: #f5f0e1;
+            --sepia: #704214;
+            --ochre: #cc7722;
+            --deep-blue: #1a2639;
+            --oxidized: #4a5568;
+            --blood-red: #722f37;
+            --moss: #3d5a3d;
+            --vine-dark: #2d4a2d;
+            --decay: #3d3522;
+            --cable-blue: #2a5a8a;
+            --cable-green: #1a6a5a;
+            --terminal-green: #33ff33;
+            --terminal-amber: #ffaa00;
+        }
+        
+        body {
+            font-family: 'Crimson Text', Georgia, serif;
+            line-height: 1.8;
+            color: var(--cream);
+            background: var(--ink-black);
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(ellipse at 15% 20%, rgba(139, 69, 19, 0.15) 0%, transparent 40%),
+                radial-gradient(ellipse at 85% 80%, rgba(26, 38, 57, 0.4) 0%, transparent 40%),
+                url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.12'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 1;
+        }
+        
+        /* ============ DOT MATRIX PRINTOUTS ============ */
+        .printout {
+            position: fixed;
+            font-family: 'VT323', monospace;
+            font-size: 14px;
+            color: var(--terminal-green);
+            opacity: 0.6;
+            pointer-events: none;
+            z-index: 40;
+            text-shadow: 0 0 5px rgba(51, 255, 51, 0.5);
+            white-space: pre;
+            line-height: 1.4;
+        }
+        
+        .printout-1 {
+            top: 15%;
+            right: 12%;
+            transform: rotate(8deg);
+            color: var(--terminal-amber);
+            text-shadow: 0 0 5px rgba(255, 170, 0, 0.4);
+        }
+        
+        .printout-2 {
+            top: 45%;
+            left: 3%;
+            transform: rotate(-5deg);
+            font-size: 12px;
+        }
+        
+        .printout-3 {
+            bottom: 25%;
+            right: 5%;
+            transform: rotate(3deg);
+            opacity: 0.5;
+        }
+        
+        .printout-4 {
+            top: 70%;
+            left: 8%;
+            transform: rotate(-8deg);
+            color: var(--terminal-amber);
+            text-shadow: 0 0 5px rgba(255, 170, 0, 0.4);
+            font-size: 11px;
+        }
+        
+        /* Perforated edge effect */
+        .printout::before {
+            content: '○ ○ ○ ○ ○ ○ ○ ○';
+            display: block;
+            letter-spacing: 3px;
+            opacity: 0.4;
+            margin-bottom: 5px;
+        }
+        
+        .printout::after {
+            content: '○ ○ ○ ○ ○ ○ ○ ○';
+            display: block;
+            letter-spacing: 3px;
+            opacity: 0.4;
+            margin-top: 5px;
+        }
+        
+        /* ============ VINES + CABLES INTERTWINED ============ */
+        .vine-cable-left {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 150px;
+            height: 100%;
+            pointer-events: none;
+            z-index: 50;
+        }
+        
+        .vine-cable-right {
+            position: fixed;
+            right: 0;
+            top: 0;
+            width: 130px;
+            height: 100%;
+            pointer-events: none;
+            z-index: 50;
+        }
+        
+        /* ============ CORNER GROWTH WITH TECH ============ */
+        .corner-growth {
+            position: fixed;
+            pointer-events: none;
+            z-index: 50;
+        }
+        
+        .corner-tl {
+            top: 0;
+            left: 0;
+            width: 300px;
+            height: 300px;
+        }
+        
+        .corner-br {
+            bottom: 0;
+            right: 0;
+            width: 280px;
+            height: 280px;
+        }
+        
+        /* ============ MOTHS / BUTTERFLIES ============ */
+        .moth {
+            position: fixed;
+            pointer-events: none;
+            z-index: 45;
+            opacity: 0.5;
+            animation: mothFloat 15s ease-in-out infinite;
+        }
+        
+        .moth-1 {
+            top: 20%;
+            right: 20%;
+            animation-delay: 0s;
+        }
+        
+        .moth-2 {
+            top: 60%;
+            left: 15%;
+            animation-delay: -5s;
+            transform: scale(0.8);
+        }
+        
+        .moth-3 {
+            bottom: 30%;
+            right: 25%;
+            animation-delay: -10s;
+            transform: scale(0.6);
+            opacity: 0.4;
+        }
+        
+        @keyframes mothFloat {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            25% { transform: translate(15px, -20px) rotate(5deg); }
+            50% { transform: translate(-10px, -10px) rotate(-3deg); }
+            75% { transform: translate(20px, 10px) rotate(8deg); }
+        }
+        
+        /* ============ CLOCK / MECHANICAL ELEMENTS ============ */
+        .clock-element {
+            position: fixed;
+            pointer-events: none;
+            z-index: 35;
+            opacity: 0.35;
+        }
+        
+        .clock-1 {
+            top: 30%;
+            right: 8%;
+        }
+        
+        .clock-2 {
+            bottom: 40%;
+            left: 5%;
+            transform: rotate(15deg);
+        }
+        
+        /* ============ TORN PAPER FRAGMENTS ============ */
+        .paper-fragment {
+            position: fixed;
+            background: linear-gradient(135deg, #d4c5a9 0%, #c4b599 50%, #b4a589 100%);
+            pointer-events: none;
+            z-index: 30;
+            box-shadow: 2px 3px 8px rgba(0,0,0,0.4);
+        }
+        
+        .fragment-1 {
+            top: 12%;
+            left: 10%;
+            width: 80px;
+            height: 100px;
+            transform: rotate(-12deg);
+            clip-path: polygon(5% 0%, 95% 3%, 100% 90%, 85% 100%, 10% 95%, 0% 80%);
+            opacity: 0.7;
+        }
+        
+        .fragment-2 {
+            top: 55%;
+            right: 10%;
+            width: 70px;
+            height: 90px;
+            transform: rotate(8deg);
+            clip-path: polygon(0% 5%, 90% 0%, 100% 85%, 95% 100%, 5% 95%, 0% 70%);
+            opacity: 0.6;
+        }
+        
+        .fragment-3 {
+            bottom: 20%;
+            left: 15%;
+            width: 60px;
+            height: 75px;
+            transform: rotate(-5deg);
+            clip-path: polygon(10% 0%, 100% 5%, 95% 100%, 0% 90%);
+            opacity: 0.5;
+        }
+        
+        /* Aged text on fragments */
+        .fragment-1::after {
+            content: 'LOG_0x7F\\A ERR: mem';
+            font-family: 'VT323', monospace;
+            font-size: 10px;
+            color: #4a4035;
+            position: absolute;
+            top: 20%;
+            left: 15%;
+            white-space: pre;
+            opacity: 0.7;
+        }
+        
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 40px;
+            position: relative;
+            z-index: 10;
+        }
+        
+        header {
+            padding: 80px 0 120px;
+            position: relative;
+            min-height: 70vh;
+            display: flex;
+            align-items: center;
+        }
+        
+        .header-content {
+            position: relative;
+            width: 100%;
+        }
+        
+        .ink-splatter {
+            position: absolute;
+            background: radial-gradient(ellipse, rgba(10, 10, 10, 0.9) 0%, transparent 70%);
+            border-radius: 50% 40% 60% 50%;
+            filter: blur(15px);
+            opacity: 0.7;
+            z-index: -1;
+        }
+        
+        .ink-splatter-1 { 
+            width: 400px; height: 350px;
+            top: -100px; left: -5%; 
+            transform: rotate(-25deg); 
+        }
+        .ink-splatter-2 { 
+            width: 250px; height: 200px;
+            top: 30%; right: 0; 
+            transform: rotate(45deg);
+            background: radial-gradient(ellipse, rgba(139, 69, 19, 0.3) 0%, transparent 70%);
+        }
+        .ink-splatter-3 {
+            width: 180px; height: 180px;
+            bottom: 10%; left: 20%;
+            transform: rotate(-10deg);
+            background: radial-gradient(ellipse, rgba(26, 38, 57, 0.5) 0%, transparent 70%);
+        }
+        
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(3rem, 8vw, 6rem);
+            font-weight: 900;
+            position: relative;
+            letter-spacing: -0.03em;
+            text-shadow: 
+                4px 4px 0 var(--rust),
+                8px 8px 30px rgba(0,0,0,0.9);
+            background: linear-gradient(170deg, var(--cream) 0%, var(--aged-paper) 60%, var(--ochre) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            transform: rotate(-2deg);
+            margin-left: -20px;
+            line-height: 1.1;
+        }
+        
+        .tagline {
+            font-family: 'Caveat', cursive;
+            font-size: 1.8em;
+            margin-top: 30px;
+            margin-left: 15%;
+            color: var(--ochre);
+            transform: rotate(1deg);
+            position: relative;
+            display: inline-block;
+        }
+        
+        .tagline::before {
+            content: '>';
+            position: absolute;
+            left: -25px;
+            color: var(--terminal-green);
+            font-family: 'VT323', monospace;
+            opacity: 0.7;
+        }
+        
+        .cta-button {
+            display: inline-block;
+            padding: 18px 45px;
+            background: transparent;
+            color: var(--cream);
+            text-decoration: none;
+            border: 2px solid var(--ochre);
+            font-family: 'Special Elite', cursive;
+            font-size: 0.95em;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            transition: all 0.4s ease;
+            position: absolute;
+            right: 10%;
+            bottom: 0;
+            transform: rotate(3deg);
+        }
+        
+        .cta-button:hover {
+            background: var(--ochre);
+            color: var(--ink-black);
+            box-shadow: 0 0 40px rgba(204, 119, 34, 0.5);
+            transform: rotate(0deg) scale(1.05);
+        }
+        
+        nav {
+            background: rgba(26, 26, 26, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 20px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-top: 1px solid rgba(139, 69, 19, 0.3);
+            border-bottom: 1px solid rgba(139, 69, 19, 0.3);
+            clip-path: polygon(0 0, 100% 2%, 100% 98%, 0 100%);
+        }
+        
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+        }
+        
+        nav li:nth-child(odd) a { transform: rotate(-1deg); }
+        nav li:nth-child(even) a { transform: rotate(1deg); }
+        
+        nav a {
+            text-decoration: none;
+            color: var(--aged-paper);
+            font-family: 'Special Elite', cursive;
+            font-size: 0.9em;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            padding: 10px 20px;
+            position: relative;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+        
+        nav a:hover {
+            color: var(--ochre);
+            transform: rotate(0deg) scale(1.1);
+        }
+        
+        main { padding: 60px 0; }
+        
+        .section {
+            background: linear-gradient(135deg, rgba(26, 26, 26, 0.98) 0%, rgba(20, 20, 20, 0.95) 100%);
+            margin: 80px 0;
+            padding: 50px 60px;
+            position: relative;
+            border: 1px solid rgba(139, 69, 19, 0.25);
+            box-shadow: 0 25px 80px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.02);
+            transition: all 0.4s ease;
+        }
+        
+        .section:nth-child(odd) {
+            transform: rotate(-0.5deg);
+            margin-left: -20px;
+            border-left: 5px solid var(--rust);
+        }
+        
+        .section:nth-child(even) {
+            transform: rotate(0.5deg);
+            margin-right: -20px;
+            margin-left: 20px;
+            border-right: 5px solid var(--ochre);
+        }
+        
+        .section::before {
+            content: '';
+            position: absolute;
+            top: -3px;
+            left: 5%;
+            right: 15%;
+            height: 6px;
+            background: linear-gradient(90deg, transparent 0%, var(--rust) 10%, var(--ochre) 30%, var(--rust) 50%, transparent 60%, var(--ochre) 75%, transparent 100%);
+            opacity: 0.7;
+            clip-path: polygon(0 50%, 2% 0, 5% 80%, 8% 20%, 12% 90%, 15% 10%, 20% 70%, 25% 30%, 30% 85%, 35% 15%, 40% 75%, 45% 25%, 50% 90%, 55% 5%, 60% 80%, 65% 20%, 70% 70%, 75% 35%, 80% 85%, 85% 10%, 90% 75%, 95% 30%, 100% 50%);
+        }
+        
+        .section:hover {
+            transform: rotate(0deg);
+            box-shadow: 0 35px 100px rgba(0,0,0,0.7), inset 0 1px 0 rgba(255,255,255,0.03);
+        }
+        
+        .section h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2rem, 5vw, 3.2rem);
+            font-weight: 700;
+            margin-bottom: 40px;
+            color: var(--cream);
+            position: relative;
+            display: inline-block;
+            transform: rotate(-1deg);
+        }
+        
+        .section h2::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: -10px;
+            width: 80px;
+            height: 4px;
+            background: var(--ochre);
+            transform: rotate(2deg);
+        }
+        
+        .section h3 {
+            font-family: 'Caveat', cursive;
+            color: var(--ochre);
+            margin: 35px 0 20px 0;
+            font-size: 1.6em;
+            transform: rotate(-0.5deg);
+            display: inline-block;
+        }
+        
+        .section p {
+            margin-bottom: 20px;
+            color: var(--aged-paper);
+            font-size: 1.1em;
+            max-width: 90%;
+        }
+        
+        .section ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        .section ul li {
+            padding: 12px 0 12px 35px;
+            position: relative;
+            color: var(--aged-paper);
+        }
+        
+        .section ul li::before {
+            content: '>';
+            position: absolute;
+            left: 10px;
+            color: var(--terminal-green);
+            font-family: 'VT323', monospace;
+            font-weight: bold;
+            opacity: 0.8;
+        }
+        
+        .section ul li:nth-child(odd) { transform: translateX(5px); }
+        
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 60px;
+            align-items: start;
+        }
+        
+        .profile-area { position: relative; }
+        
+        .profile-placeholder {
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(ellipse at 30% 30%, rgba(204, 119, 34, 0.3) 0%, transparent 50%), linear-gradient(135deg, var(--charcoal) 0%, var(--deep-blue) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--ochre);
+            font-size: 4.5em;
+            border: 3px solid var(--rust);
+            box-shadow: 0 0 50px rgba(139, 69, 19, 0.4), inset 0 0 60px rgba(0,0,0,0.5);
+            position: relative;
+            transform: rotate(-5deg);
+            clip-path: polygon(5% 0%, 100% 3%, 97% 100%, 0% 95%);
+        }
+        
+        .stamp {
+            position: absolute;
+            bottom: -30px;
+            right: -20px;
+            width: 80px;
+            height: 80px;
+            border: 3px dashed var(--blood-red);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Special Elite', cursive;
+            font-size: 0.6em;
+            color: var(--blood-red);
+            text-transform: uppercase;
+            transform: rotate(15deg);
+            opacity: 0.7;
+            text-align: center;
+            line-height: 1.2;
+            padding: 10px;
+        }
+        
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 40px;
+            margin-top: 50px;
+        }
+        
+        .flip-card {
+            background: transparent;
+            width: 100%;
+            height: 380px;
+            perspective: 1000px;
+        }
+        
+        .flip-card:nth-child(1) { transform: rotate(-2deg); }
+        .flip-card:nth-child(2) { transform: rotate(1.5deg) translateY(20px); }
+        .flip-card:nth-child(3) { transform: rotate(-1deg) translateY(-10px); }
+        .flip-card:nth-child(4) { transform: rotate(2deg) translateY(15px); }
+        
+        .flip-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.8s;
+            transform-style: preserve-3d;
+        }
+        
+        .flip-card:hover .flip-card-inner { transform: rotateY(180deg); }
+        
+        .flip-card:hover {
+            transform: rotate(0deg) translateY(0) scale(1.02);
+            z-index: 10;
+        }
+        
+        .flip-card-front, .flip-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            padding: 35px;
+        }
+        
+        .flip-card-front {
+            background: linear-gradient(145deg, rgba(30, 30, 30, 0.98) 0%, rgba(20, 20, 20, 0.95) 100%);
+            border: 1px solid rgba(139, 69, 19, 0.4);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 8px 12px 40px rgba(0,0,0,0.5);
+            clip-path: polygon(0 2%, 98% 0, 100% 97%, 3% 100%);
+        }
+        
+        .flip-card:nth-child(odd) .flip-card-front { border-left: 5px solid var(--rust); }
+        .flip-card:nth-child(even) .flip-card-front { border-right: 5px solid var(--ochre); }
+        
+        .flip-card-front h4 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5em;
+            color: var(--cream);
+            margin-bottom: 15px;
+            transform: rotate(-1deg);
+        }
+        
+        .flip-card-front p {
+            color: var(--aged-paper);
+            font-size: 1em;
+            line-height: 1.7;
+        }
+        
+        .flip-card-back {
+            background: linear-gradient(145deg, var(--deep-blue) 0%, var(--charcoal) 100%);
+            border: 1px solid var(--rust);
+            color: var(--cream);
+            transform: rotateY(180deg);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 8px 12px 40px rgba(0,0,0,0.5);
+            clip-path: polygon(2% 0, 100% 3%, 97% 100%, 0 98%);
+        }
+        
+        .flip-card-back h4 {
+            font-family: 'Caveat', cursive;
+            color: var(--ochre);
+            font-size: 1.5em;
+            margin-bottom: 20px;
+        }
+        
+        .flip-card-back p {
+            color: var(--aged-paper);
+            line-height: 1.8;
+        }
+        
+        .project-status {
+            display: inline-block;
+            padding: 8px 20px;
+            font-size: 0.7em;
+            font-family: 'VT323', monospace;
+            font-weight: bold;
+            margin-top: 20px;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            transform: rotate(2deg);
+        }
+        
+        .status-completed {
+            background: rgba(40, 167, 69, 0.2);
+            color: #6dbb7a;
+            border: 1px solid rgba(40, 167, 69, 0.4);
+        }
+        
+        .status-progress {
+            background: rgba(204, 119, 34, 0.2);
+            color: var(--ochre);
+            border: 1px solid rgba(204, 119, 34, 0.4);
+        }
+        
+        .status-planned {
+            background: rgba(74, 85, 104, 0.2);
+            color: #8b9dc3;
+            border: 1px solid rgba(74, 85, 104, 0.4);
+        }
+        
+        .journey-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+        
+        .week-card {
+            background: rgba(26, 26, 26, 0.9);
+            border: 1px solid rgba(139, 69, 19, 0.3);
+            padding: 25px;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        
+        .week-card:nth-child(1) { transform: rotate(-1.5deg); }
+        .week-card:nth-child(2) { transform: rotate(1deg) translateY(10px); }
+        .week-card:nth-child(3) { transform: rotate(-0.5deg) translateY(-5px); }
+        .week-card:nth-child(4) { transform: rotate(2deg); }
+        .week-card:nth-child(5) { transform: rotate(-1deg) translateY(8px); }
+        .week-card:nth-child(6) { transform: rotate(1.5deg) translateY(-8px); }
+        .week-card:nth-child(7) { transform: rotate(-2deg); }
+        .week-card:nth-child(8) { transform: rotate(0.5deg) translateY(5px); }
+        
+        .week-card:hover {
+            border-color: var(--ochre);
+            transform: rotate(0deg) translateY(0) scale(1.03);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+            z-index: 10;
+        }
+        
+        .week-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--rust), var(--moss), var(--cable-blue), var(--rust));
+            clip-path: polygon(0 0, 5% 100%, 15% 20%, 25% 80%, 40% 30%, 55% 90%, 70% 40%, 85% 70%, 100% 0);
+        }
+        
+        .week-card h4 {
+            font-family: 'Playfair Display', serif;
+            color: var(--cream);
+            font-size: 1.15em;
+            margin-bottom: 15px;
+        }
+        
+        .week-card ul { list-style: none; padding: 0; }
+        
+        .week-card ul li {
+            padding: 5px 0 5px 20px;
+            position: relative;
+            font-size: 0.85em;
+            color: var(--aged-paper);
+        }
+        
+        .week-card ul li::before {
+            content: '$';
+            position: absolute;
+            left: 0;
+            color: var(--terminal-green);
+            font-family: 'VT323', monospace;
+            opacity: 0.8;
+        }
+        
+        .week-number {
+            font-family: 'VT323', monospace;
+            color: var(--terminal-amber);
+            font-size: 1.1em;
+            margin-bottom: 8px;
+        }
+        
+        .week-card-highlight {
+            background: linear-gradient(145deg, rgba(204, 119, 34, 0.15) 0%, rgba(26, 26, 26, 0.9) 100%);
+            border-color: var(--ochre);
+            border-width: 2px;
+        }
+        
+        .blog-post {
+            background: rgba(26, 26, 26, 0.8);
+            padding: 30px 35px;
+            margin-bottom: 30px;
+            border-left: 4px solid var(--rust);
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        
+        .blog-post:nth-child(odd) {
+            transform: rotate(-0.3deg);
+            margin-left: 20px;
+        }
+        
+        .blog-post:nth-child(even) {
+            transform: rotate(0.3deg);
+            margin-right: 20px;
+        }
+        
+        .blog-post:hover {
+            background: rgba(30, 30, 30, 0.9);
+            border-left-color: var(--ochre);
+            transform: rotate(0deg);
+        }
+        
+        .blog-post h4 {
+            font-family: 'Playfair Display', serif;
+            color: var(--cream);
+            margin-bottom: 10px;
+            font-size: 1.4em;
+        }
+        
+        .blog-meta {
+            font-family: 'VT323', monospace;
+            color: var(--terminal-green);
+            font-size: 1.1em;
+            margin-bottom: 15px;
+            opacity: 0.8;
+        }
+        
+        .skills-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 30px;
+        }
+        
+        .skill-tag {
+            background: transparent;
+            border: 1px solid var(--rust);
+            color: var(--aged-paper);
+            padding: 10px 22px;
+            font-family: 'Special Elite', cursive;
+            font-size: 0.85em;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .skill-tag:nth-child(odd) { transform: rotate(-1deg); }
+        .skill-tag:nth-child(even) { transform: rotate(1deg); }
+        
+        .skill-tag:hover {
+            background: var(--rust);
+            color: var(--cream);
+            transform: rotate(0deg) scale(1.05);
+        }
+        
+        .contact-info {
+            margin-top: 40px;
+            text-align: left;
+            max-width: 400px;
+        }
+        
+        .contact-info p {
+            margin: 15px 0;
+            padding-left: 20px;
+            border-left: 2px solid var(--rust);
+        }
+        
+        footer {
+            background: rgba(10, 10, 10, 0.95);
+            color: var(--oxidized);
+            text-align: center;
+            padding: 60px 0;
+            margin-top: 100px;
+            border-top: 1px solid rgba(139, 69, 19, 0.3);
+            position: relative;
+            clip-path: polygon(0 5%, 100% 0, 100% 100%, 0 100%);
+        }
+        
+        footer p {
+            font-family: 'Special Elite', cursive;
+            letter-spacing: 0.1em;
+        }
+        
+        .social-links { margin-top: 30px; }
+        
+        .social-links a {
+            color: var(--aged-paper);
+            text-decoration: none;
+            margin: 0 20px;
+            font-family: 'Special Elite', cursive;
+            font-size: 0.9em;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+        
+        .social-links a:nth-child(1) { transform: rotate(-2deg); }
+        .social-links a:nth-child(2) { transform: rotate(1deg); }
+        .social-links a:nth-child(3) { transform: rotate(-1deg); }
+        
+        .social-links a:hover {
+            color: var(--ochre);
+            transform: rotate(0deg) scale(1.1);
+        }
+        
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+        
+        .star {
+            position: absolute;
+            background: var(--cream);
+            border-radius: 50%;
+            opacity: 0.3;
+        }
+        
+        .ink-drip {
+            width: 3px;
+            position: fixed;
+            top: 0;
+            opacity: 0.4;
+            z-index: 0;
+        }
+        
+        .ink-drip-1 { left: 3%; height: 180px; background: linear-gradient(180deg, var(--rust), transparent); transform: rotate(-2deg); }
+        .ink-drip-2 { left: 12%; height: 90px; background: linear-gradient(180deg, var(--deep-blue), transparent); transform: rotate(3deg); }
+        .ink-drip-3 { right: 6%; height: 140px; background: linear-gradient(180deg, var(--ochre), transparent); transform: rotate(-1deg); }
+        .ink-drip-4 { right: 18%; height: 70px; background: linear-gradient(180deg, var(--blood-red), transparent); transform: rotate(2deg); }
+        
+        @media (max-width: 768px) {
+            .vine-cable-left, .vine-cable-right, .corner-growth, .moth, .clock-element, .paper-fragment, .printout { opacity: 0.3; }
+            .container { padding: 0 20px; }
+            h1 { transform: rotate(-1deg); margin-left: 0; }
+            .tagline { margin-left: 5%; }
+            .cta-button { position: relative; right: auto; margin-top: 40px; transform: rotate(1deg); }
+            .section { padding: 35px 25px; margin-left: 0 !important; margin-right: 0 !important; }
+            .section:nth-child(odd), .section:nth-child(even) { transform: rotate(0deg); }
+            .about-content { grid-template-columns: 1fr; text-align: center; }
+            .profile-area { display: flex; justify-content: center; }
+            nav ul { gap: 15px; }
+            .flip-card { height: 400px; transform: rotate(0deg) !important; }
+            .week-card { transform: rotate(0deg) !important; }
+            .social-links a { display: block; margin: 15px 0; }
+        }
+    </style>
+</head>
+<body>
+    <!-- ========== DOT MATRIX PRINTOUTS ========== -->
+    <div class="printout printout-1">
+SYS_LOG [2024.01.15]
+----------------------
+> init sequence...
+> loading modules
+> STATUS: ONLINE
+> mem_alloc: 0x7FFF
+    </div>
+    
+    <div class="printout printout-2">
+[PROCESS 0x4A2]
+================
+runtime: 847ms
+cache: VALID
+node: active
+>> EOF
+    </div>
+    
+    <div class="printout printout-3">
+STACK_TRACE:
+-----------
+main() -> init
+  -> render
+  -> compile
+[OK] complete
+    </div>
+    
+    <div class="printout printout-4">
+ERR_LOG #127
+============
+warn: deprecated
+fix: pending
+stat: nominal
+>_
+    </div>
+    
+    <!-- ========== VINES + CABLES - LEFT ========== -->
+    <svg class="vine-cable-left" viewBox="0 0 150 1000" preserveAspectRatio="xMinYMin slice">
+        <!-- Organic vine - thinner -->
+        <path d="M-10,0 C20,60 5,120 25,180 C40,240 10,300 30,360 C45,420 15,480 35,540 C50,600 20,660 40,720 C55,780 25,840 45,900 C60,960 30,1000 50,1100" 
+              stroke="#3d5a3d" stroke-width="5" fill="none" opacity="0.7"/>
+        
+        <!-- Blue ethernet cable - intertwined -->
+        <path d="M5,20 C35,80 15,160 40,220 C55,280 25,360 50,420 C65,480 35,560 55,620 C70,680 40,760 60,820 C75,880 45,960 65,1020" 
+              stroke="#2a5a8a" stroke-width="4" fill="none" opacity="0.8" stroke-dasharray="15,5"/>
+        
+        <!-- Green cable -->
+        <path d="M15,60 C40,100 20,180 45,240 C60,300 30,380 55,440 C70,500 40,580 60,640 C75,700 45,780 65,840 C80,900 50,980 70,1040" 
+              stroke="#1a6a5a" stroke-width="3" fill="none" opacity="0.75"/>
+        
+        <!-- Vine branches -->
+        <path d="M25,180 C55,165 80,185 110,160" stroke="#3d5a3d" stroke-width="2" fill="none" opacity="0.6"/>
+        <path d="M35,540 C65,520 95,545 125,510" stroke="#2d4a2d" stroke-width="2" fill="none" opacity="0.5"/>
+        
+        <!-- Cable connectors (RJ45 style rectangles) -->
+        <rect x="38" y="215" width="12" height="8" fill="#1a3a4a" opacity="0.7" rx="1"/>
+        <rect x="53" y="415" width="12" height="8" fill="#1a4a3a" opacity="0.7" rx="1"/>
+        <rect x="58" y="615" width="12" height="8" fill="#1a3a4a" opacity="0.7" rx="1"/>
+        <rect x="63" y="815" width="12" height="8" fill="#1a4a3a" opacity="0.7" rx="1"/>
+        
+        <!-- Leaves growing over cables -->
+        <ellipse cx="90" cy="155" rx="18" ry="8" fill="#3d5a3d" opacity="0.6" transform="rotate(-25 90 155)"/>
+        <ellipse cx="70" cy="350" rx="15" ry="7" fill="#2d4a2d" opacity="0.55" transform="rotate(15 70 350)"/>
+        <ellipse cx="100" cy="505" rx="20" ry="9" fill="#3d5a3d" opacity="0.6" transform="rotate(-20 100 505)"/>
+        <ellipse cx="85" cy="700" rx="16" ry="7" fill="#2d4a2d" opacity="0.55" transform="rotate(10 85 700)"/>
+        <ellipse cx="95" cy="880" rx="18" ry="8" fill="#3d5a3d" opacity="0.6" transform="rotate(-15 95 880)"/>
+        
+        <!-- Small berries -->
+        <circle cx="25" cy="180" r="5" fill="#722f37" opacity="0.6"/>
+        <circle cx="35" cy="540" r="4" fill="#8b4513" opacity="0.55"/>
+        <circle cx="45" cy="720" r="5" fill="#722f37" opacity="0.6"/>
+    </svg>
+    
+    <!-- ========== VINES + CABLES - RIGHT ========== -->
+    <svg class="vine-cable-right" viewBox="0 0 130 1000" preserveAspectRatio="xMaxYMin slice">
+        <!-- Main vine -->
+        <path d="M140,0 C115,50 130,110 105,170 C90,230 120,300 95,370 C80,440 110,510 85,580 C70,650 100,720 75,790 C60,860 90,930 65,1000" 
+              stroke="#8b4513" stroke-width="4" fill="none" opacity="0.65"/>
+        
+        <!-- Blue cable wrapping around -->
+        <path d="M135,40 C105,90 125,150 95,210 C75,270 105,340 80,410 C65,480 95,550 70,620 C55,690 85,760 60,830 C45,900 75,970 50,1040" 
+              stroke="#2a5a8a" stroke-width="3.5" fill="none" opacity="0.75" stroke-dasharray="12,4"/>
+        
+        <!-- Thin green wire -->
+        <path d="M130,80 C100,120 120,190 90,260 C70,330 100,400 75,470 C60,540 90,610 65,680 C50,750 80,820 55,890" 
+              stroke="#1a6a5a" stroke-width="2" fill="none" opacity="0.7"/>
+        
+        <!-- Branches reaching left -->
+        <path d="M105,170 C75,155 45,180 15,150" stroke="#6b3410" stroke-width="2" fill="none" opacity="0.5"/>
+        <path d="M85,580 C55,560 25,590 0,560" stroke="#8b4513" stroke-width="2" fill="none" opacity="0.5"/>
+        
+        <!-- Cable connector boxes -->
+        <rect x="80" y="205" width="10" height="7" fill="#1a3a4a" opacity="0.65" rx="1"/>
+        <rect x="65" y="405" width="10" height="7" fill="#1a4a3a" opacity="0.65" rx="1"/>
+        <rect x="55" y="615" width="10" height="7" fill="#1a3a4a" opacity="0.65" rx="1"/>
+        
+        <!-- Leaves -->
+        <ellipse cx="35" cy="145" rx="16" ry="7" fill="#8b4513" opacity="0.5" transform="rotate(155 35 145)"/>
+        <ellipse cx="20" cy="555" rx="18" ry="8" fill="#6b3410" opacity="0.5" transform="rotate(-160 20 555)"/>
+        <ellipse cx="45" cy="780" rx="15" ry="6" fill="#8b4513" opacity="0.5" transform="rotate(165 45 780)"/>
+        
+        <!-- Seed pods -->
+        <ellipse cx="100" cy="250" rx="5" ry="8" fill="#3d3522" opacity="0.6" transform="rotate(15 100 250)"/>
+        <ellipse cx="80" cy="480" rx="4" ry="7" fill="#3d3522" opacity="0.55" transform="rotate(-10 80 480)"/>
+    </svg>
+    
+    <!-- ========== TOP LEFT CORNER - TECH + NATURE ========== -->
+    <svg class="corner-growth corner-tl" viewBox="0 0 300 300">
+        <!-- Organic growth -->
+        <path d="M0,0 C40,25 70,60 100,85 C130,110 170,90 200,120 C230,150 250,190 300,210" 
+              stroke="#3d5a3d" stroke-width="4" fill="none" opacity="0.6"/>
+        <path d="M0,0 C25,40 50,85 80,115 C110,145 150,130 190,170 C230,210 260,260 290,300" 
+              stroke="#2d4a2d" stroke-width="3" fill="none" opacity="0.5"/>
+        
+        <!-- Cables spreading from corner -->
+        <path d="M0,10 C50,35 90,70 130,95 C170,120 200,100 240,140" 
+              stroke="#2a5a8a" stroke-width="3" fill="none" opacity="0.7" stroke-dasharray="10,4"/>
+        <path d="M10,0 C35,45 65,95 95,125 C125,155 165,140 200,185" 
+              stroke="#1a6a5a" stroke-width="2.5" fill="none" opacity="0.65"/>
+        
+        <!-- Leaf clusters -->
+        <ellipse cx="110" cy="80" rx="16" ry="7" fill="#3d5a3d" opacity="0.55" transform="rotate(-35 110 80)"/>
+        <ellipse cx="150" cy="110" rx="14" ry="6" fill="#2d4a2d" opacity="0.5" transform="rotate(20 150 110)"/>
+        <ellipse cx="85" cy="120" rx="18" ry="8" fill="#3d5a3d" opacity="0.55" transform="rotate(-50 85 120)"/>
+        
+        <!-- Small connector -->
+        <rect x="125" y="90" width="8" height="5" fill="#1a3a4a" opacity="0.6" rx="1" transform="rotate(-30 129 92)"/>
+    </svg>
+    
+    <!-- ========== BOTTOM RIGHT CORNER ========== -->
+    <svg class="corner-growth corner-br" viewBox="0 0 280 280">
+        <path d="M280,280 C245,255 215,220 185,195 C155,170 115,190 85,160 C55,130 30,90 0,60" 
+              stroke="#8b4513" stroke-width="3.5" fill="none" opacity="0.55"/>
+        <path d="M280,270 C250,240 220,200 190,175 C160,150 120,165 90,135 C60,105 40,65 10,30" 
+              stroke="#2a5a8a" stroke-width="2.5" fill="none" opacity="0.6" stroke-dasharray="8,3"/>
+        
+        <!-- Leaves -->
+        <ellipse cx="170" cy="195" rx="14" ry="6" fill="#8b4513" opacity="0.5" transform="rotate(140 170 195)"/>
+        <ellipse cx="100" cy="155" rx="12" ry="5" fill="#6b3410" opacity="0.45" transform="rotate(-155 100 155)"/>
+    </svg>
+    
+    <!-- ========== MOTHS ========== -->
+    <svg class="moth moth-1" width="50" height="40" viewBox="0 0 50 40">
+        <ellipse cx="25" cy="20" rx="4" ry="8" fill="#4a4035" opacity="0.8"/>
+        <ellipse cx="12" cy="15" rx="10" ry="12" fill="#3d3522" opacity="0.6" transform="rotate(-20 12 15)"/>
+        <ellipse cx="38" cy="15" rx="10" ry="12" fill="#3d3522" opacity="0.6" transform="rotate(20 38 15)"/>
+        <ellipse cx="10" cy="28" rx="7" ry="8" fill="#4a4035" opacity="0.5" transform="rotate(-30 10 28)"/>
+        <ellipse cx="40" cy="28" rx="7" ry="8" fill="#4a4035" opacity="0.5" transform="rotate(30 40 28)"/>
+        <circle cx="14" cy="13" r="3" fill="#2a2520" opacity="0.7"/>
+        <circle cx="36" cy="13" r="3" fill="#2a2520" opacity="0.7"/>
+        <line x1="23" y1="8" x2="18" y2="2" stroke="#3d3522" stroke-width="1" opacity="0.6"/>
+        <line x1="27" y1="8" x2="32" y2="2" stroke="#3d3522" stroke-width="1" opacity="0.6"/>
+    </svg>
+    
+    <svg class="moth moth-2" width="50" height="40" viewBox="0 0 50 40">
+        <ellipse cx="25" cy="20" rx="4" ry="8" fill="#5a4a3a" opacity="0.8"/>
+        <ellipse cx="12" cy="15" rx="10" ry="12" fill="#4a3d30" opacity="0.55" transform="rotate(-15 12 15)"/>
+        <ellipse cx="38" cy="15" rx="10" ry="12" fill="#4a3d30" opacity="0.55" transform="rotate(15 38 15)"/>
+        <ellipse cx="10" cy="28" rx="7" ry="8" fill="#5a4a3a" opacity="0.45" transform="rotate(-25 10 28)"/>
+        <ellipse cx="40" cy="28" rx="7" ry="8" fill="#5a4a3a" opacity="0.45" transform="rotate(25 40 28)"/>
+        <circle cx="14" cy="13" r="2.5" fill="#3a3025" opacity="0.6"/>
+        <circle cx="36" cy="13" r="2.5" fill="#3a3025" opacity="0.6"/>
+    </svg>
+    
+    <svg class="moth moth-3" width="50" height="40" viewBox="0 0 50 40">
+        <ellipse cx="25" cy="20" rx="3" ry="7" fill="#4a4035" opacity="0.7"/>
+        <ellipse cx="13" cy="16" rx="9" ry="11" fill="#3d3522" opacity="0.5" transform="rotate(-18 13 16)"/>
+        <ellipse cx="37" cy="16" rx="9" ry="11" fill="#3d3522" opacity="0.5" transform="rotate(18 37 16)"/>
+    </svg>
+    
+    <!-- ========== CLOCK / MECHANICAL ELEMENTS ========== -->
+    <svg class="clock-element clock-1" width="100" height="100" viewBox="0 0 100 100">
+        <!-- Outer ring -->
+        <circle cx="50" cy="50" r="45" stroke="#8b4513" stroke-width="2" fill="none" opacity="0.5"/>
+        <circle cx="50" cy="50" r="38" stroke="#6b3410" stroke-width="1" fill="none" opacity="0.4"/>
+        <!-- Hour marks -->
+        <line x1="50" y1="10" x2="50" y2="18" stroke="#8b4513" stroke-width="2" opacity="0.5"/>
+        <line x1="50" y1="82" x2="50" y2="90" stroke="#8b4513" stroke-width="2" opacity="0.5"/>
+        <line x1="10" y1="50" x2="18" y2="50" stroke="#8b4513" stroke-width="2" opacity="0.5"/>
+        <line x1="82" y1="50" x2="90" y2="50" stroke="#8b4513" stroke-width="2" opacity="0.5"/>
+        <!-- Hands -->
+        <line x1="50" y1="50" x2="50" y2="25" stroke="#4a3520" stroke-width="3" opacity="0.6"/>
+        <line x1="50" y1="50" x2="70" y2="40" stroke="#4a3520" stroke-width="2" opacity="0.5"/>
+        <!-- Center -->
+        <circle cx="50" cy="50" r="4" fill="#3d3020" opacity="0.6"/>
+        <!-- Gears peeking out -->
+        <circle cx="30" cy="70" r="12" stroke="#5a4a35" stroke-width="1.5" fill="none" opacity="0.3" stroke-dasharray="4,3"/>
+        <circle cx="75" cy="30" r="8" stroke="#5a4a35" stroke-width="1" fill="none" opacity="0.25" stroke-dasharray="3,2"/>
+    </svg>
+    
+    <svg class="clock-element clock-2" width="80" height="80" viewBox="0 0 80 80">
+        <!-- Gear shape -->
+        <circle cx="40" cy="40" r="30" stroke="#6b3410" stroke-width="2" fill="none" opacity="0.4"/>
+        <circle cx="40" cy="40" r="22" stroke="#8b4513" stroke-width="1.5" fill="none" opacity="0.35"/>
+        <circle cx="40" cy="40" r="8" fill="#3d3020" opacity="0.4"/>
+        <!-- Gear teeth suggestions -->
+        <rect x="37" y="5" width="6" height="8" fill="#6b3410" opacity="0.3"/>
+        <rect x="37" y="67" width="6" height="8" fill="#6b3410" opacity="0.3"/>
+        <rect x="5" y="37" width="8" height="6" fill="#6b3410" opacity="0.3"/>
+        <rect x="67" y="37" width="8" height="6" fill="#6b3410" opacity="0.3"/>
+    </svg>
+    
+    <!-- ========== PAPER FRAGMENTS ========== -->
+    <div class="paper-fragment fragment-1"></div>
+    <div class="paper-fragment fragment-2"></div>
+    <div class="paper-fragment fragment-3"></div>
+    
+    <div class="ink-drip ink-drip-1"></div>
+    <div class="ink-drip ink-drip-2"></div>
+    <div class="ink-drip ink-drip-3"></div>
+    <div class="ink-drip ink-drip-4"></div>
+    <div class="stars" id="stars"></div>
+    
+    <header>
+        <div class="ink-splatter ink-splatter-1"></div>
+        <div class="ink-splatter ink-splatter-2"></div>
+        <div class="ink-splatter ink-splatter-3"></div>
+        
+        <div class="container">
+            <div class="header-content">
+                <h1>My Coding<br>Journey</h1>
+                <p class="tagline">Exploring code, solving problems, one star at a time</p>
+                <a href="#about" class="cta-button">Start Exploring</a>
+            </div>
+        </div>
+    </header>
+    
+    <nav>
+        <div class="container">
+            <ul>
+                <li><a href="#about">About</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#learning">Learning Log</a></li>
+                <li><a href="#skills">Skills</a></li>
+                <li><a href="#contact">Connect</a></li>
+            </ul>
+        </div>
+    </nav>
+    
+    <main>
+        <div class="container">
+            <section id="about" class="section">
+                <h2>About My Journey</h2>
+                <div class="about-content">
+                    <div class="profile-area">
+                        <div class="profile-placeholder">&#9733;</div>
+                        <div class="stamp">Est. 2024<br>Coder</div>
+                    </div>
+                    <div>
+                        <p>Welcome to my coding adventure! I'm documenting my journey from beginner to developer, one project at a time.</p>
+                        <p>Started with simple HTML and CSS, now exploring APIs, JavaScript, and even tracking asteroids through space. Each project teaches me something new about programming and problem-solving.</p>
+                        <p>This site itself is a learning project - I'll be updating it weekly as I grow my skills and take on new challenges.</p>
+                        <h3>What drives me:</h3>
+                        <ul>
+                            <li>Curiosity about how things work</li>
+                            <li>Love for space and astronomy</li>
+                            <li>Problem-solving mindset</li>
+                            <li>Continuous learning</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+            
+            <section id="projects" class="section">
+                <h2>Projects</h2>
+                <p>Here are the projects I've built during my learning journey:</p>
+                <div class="projects-grid">
+                    <div class="flip-card">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">
+                                <h4>Unit Converter</h4>
+                                <p>My first interactive web application! Converts between kilometers and miles with input validation and a clean interface.</p>
+                                <span class="project-status status-completed">[COMPLETED]</span>
+                            </div>
+                            <div class="flip-card-back">
+                                <h4>What I learned:</h4>
+                                <p>HTML forms, JavaScript functions, CSS styling, user input validation</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flip-card">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">
+                                <h4>GitHub Tutorial Site</h4>
+                                <p>An interactive lesson teaching GitHub basics with examples, exercises, and a progress tracker.</p>
+                                <span class="project-status status-completed">[COMPLETED]</span>
+                            </div>
+                            <div class="flip-card-back">
+                                <h4>What I learned:</h4>
+                                <p>Responsive design, interactive JavaScript, educational content structure</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flip-card">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">
+                                <h4>Apophis Asteroid Tracker</h4>
+                                <p>Real-time tracking of asteroid 99942 Apophis, complete with orbital data and countdown to its 2029 close approach.</p>
+                                <span class="project-status status-progress">[IN_PROGRESS]</span>
+                            </div>
+                            <div class="flip-card-back">
+                                <h4>What I'm learning:</h4>
+                                <p>APIs, real-time data, space calculations, 3D visualizations</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flip-card">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">
+                                <h4>Future Project</h4>
+                                <p>Planning my next learning challenge based on class assignments and personal interests.</p>
+                                <span class="project-status status-planned">[PLANNED]</span>
+                            </div>
+                            <div class="flip-card-back">
+                                <h4>Ideas:</h4>
+                                <p>Weather app, task manager, or maybe something with machine learning</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <section id="learning" class="section">
+                <h2>My 8-Week Journey</h2>
+                <p>A structured path from foundations to final presentation:</p>
+                
+                <div class="journey-grid">
+                    <div class="week-card">
+                        <div class="week-number">WEEK_01</div>
+                        <h4>AI + Prompting</h4>
+                        <ul>
+                            <li>AI architecture basics</li>
+                            <li>Effective prompting</li>
+                            <li>AI fluency framework</li>
+                            <li>Building with LLMs</li>
+                        </ul>
+                    </div>
+                    <div class="week-card">
+                        <div class="week-number">WEEK_02</div>
+                        <h4>Technical Foundations</h4>
+                        <ul>
+                            <li>HTML & CSS</li>
+                            <li>GitHub workflows</li>
+                            <li>IDE navigation</li>
+                            <li>Code debugging</li>
+                        </ul>
+                    </div>
+                    <div class="week-card">
+                        <div class="week-number">WEEK_03</div>
+                        <h4>Problem Scoping</h4>
+                        <ul>
+                            <li>Root cause analysis</li>
+                            <li>Problem statements</li>
+                            <li>Giving feedback</li>
+                            <li>Frontend vs backend</li>
+                        </ul>
+                    </div>
+                    <div class="week-card">
+                        <div class="week-number">WEEK_04</div>
+                        <h4>MVPs & Automation</h4>
+                        <ul>
+                            <li>Value propositions</li>
+                            <li>Workflow mapping</li>
+                            <li>MVP scoping</li>
+                            <li>Package managers</li>
+                        </ul>
+                    </div>
+                    <div class="week-card">
+                        <div class="week-number">WEEK_05</div>
+                        <h4>Data</h4>
+                        <ul>
+                            <li>Data types & storage</li>
+                            <li>Building databases</li>
+                            <li>Data-centered projects</li>
+                            <li>Legal considerations</li>
+                        </ul>
+                    </div>
+                    <div class="week-card">
+                        <div class="week-number">WEEK_06</div>
+                        <h4>UX/UI Design</h4>
+                        <ul>
+                            <li>Core UX principles</li>
+                            <li>Interface design</li>
+                            <li>UX comparisons</li>
+                            <li>Feature redesigns</li>
+                        </ul>
+                    </div>
+                    <div class="week-card">
+                        <div class="week-number">WEEK_07</div>
+                        <h4>Testing & QA</h4>
+                        <ul>
+                            <li>Manual testing</li>
+                            <li>Automated testing</li>
+                            <li>Regression testing</li>
+                            <li>Debugging practices</li>
+                        </ul>
+                    </div>
+                    <div class="week-card week-card-highlight">
+                        <div class="week-number">WEEK_08</div>
+                        <h4>Final Presentations</h4>
+                        <ul>
+                            <li>Codifying learnings</li>
+                            <li>Presentation skills</li>
+                            <li>Resume updates</li>
+                            <li>Building in public</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <h3 style="margin-top: 70px;">Recent Discoveries</h3>
+                <div class="blog-post">
+                    <h4>Building My First Interactive Website</h4>
+                    <div class="blog-meta">> WEEK_02 // HTML, CSS, JavaScript</div>
+                    <p>Started with a simple unit converter and learned the basics of DOM manipulation. The moment when my JavaScript actually worked and converted kilometers to miles felt like magic!</p>
+                </div>
+                <div class="blog-post">
+                    <h4>Git and GitHub: Version Control Basics</h4>
+                    <div class="blog-meta">> WEEK_02 // Git, GitHub</div>
+                    <p>Finally understanding why version control is so important. Created my first repository, learned about commits, branches, and pull requests. Still getting used to the command line but it's becoming second nature.</p>
+                </div>
+                <div class="blog-post">
+                    <h4>APIs and Real-Time Data</h4>
+                    <div class="blog-meta">> WEEK_03 // APIs, JavaScript</div>
+                    <p>Working on the asteroid tracker taught me about fetching data from APIs. NASA's data is fascinating! Learning to handle async operations and error handling.</p>
+                </div>
+            </section>
+            
+            <section id="skills" class="section">
+                <h2>Skills & Technologies</h2>
+                <p>What I'm learning and using in my projects:</p>
+                <div class="skills-list">
+                    <span class="skill-tag">HTML5</span>
+                    <span class="skill-tag">CSS3</span>
+                    <span class="skill-tag">JavaScript</span>
+                    <span class="skill-tag">Git & GitHub</span>
+                    <span class="skill-tag">Responsive Design</span>
+                    <span class="skill-tag">APIs</span>
+                    <span class="skill-tag">Problem Solving</span>
+                    <span class="skill-tag">Learning in Progress</span>
+                </div>
+                <h3>Currently Exploring:</h3>
+                <ul>
+                    <li>JavaScript ES6+ features</li>
+                    <li>Working with external APIs</li>
+                    <li>3D visualization libraries</li>
+                    <li>Responsive design patterns</li>
+                </ul>
+            </section>
+            
+            <section id="contact" class="section">
+                <h2>Let's Connect</h2>
+                <p>I'm always excited to connect with fellow learners and developers!</p>
+                <p>Follow my journey and see my latest projects:</p>
+                <div class="contact-info">
+                    <p><strong style="color: var(--ochre);">Email:</strong> Ismael.caraballo@pursuit.org</p>
+                    <p><strong style="color: var(--ochre);">GitHub:</strong> github.com/yourusername</p>
+                </div>
+            </section>
+        </div>
+    </main>
+    
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 My Coding Journey | Built with curiosity and determination</p>
+            <div class="social-links">
+                <a href="#" target="_blank">GitHub</a>
+                <a href="#" target="_blank">LinkedIn</a>
+                <a href="#" target="_blank">Email</a>
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        const starsContainer = document.getElementById('stars');
+        const numberOfStars = 150;
+        const stars = [];
+
+        function createStars() {
+            for (let i = 0; i < numberOfStars; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.left = Math.random() * 100 + 'vw';
+                star.style.top = Math.random() * 100 + 'vh';
+                star.speed = Math.random() * 0.25 + 0.03; 
+                star.style.opacity = (star.speed * 0.7) + 0.1;
+                const size = star.speed * 2.5 + 0.5;
+                star.style.width = size + 'px';
+                star.style.height = size + 'px';
+                starsContainer.appendChild(star);
+                stars.push(star);
+            }
+        }
+
+        function animateStars() {
+            for (let i = 0; i < stars.length; i++) {
+                let star = stars[i];
+                let currentLeft = parseFloat(star.style.left);
+                star.style.left = (currentLeft - star.speed) + 'px';
+                if (currentLeft < -5) {
+                    star.style.left = '100vw';
+                    star.style.top = Math.random() * 100 + 'vh';
+                }
+            }
+            requestAnimationFrame(animateStars);
+        }
+
+        document.querySelectorAll('nav a, .cta-button').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const targetId = link.getAttribute('href').substring(1);
+                const targetElement = document.getElementById(targetId);
+                if (targetElement) {
+                    targetElement.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+
+        window.addEventListener('scroll', () => {
+            const nav = document.querySelector('nav');
+            if (window.scrollY > 100) {
+                nav.style.background = 'rgba(10, 10, 10, 0.98)';
+            } else {
+                nav.style.background = 'rgba(26, 26, 26, 0.95)';
+            }
+        });
+
+        window.addEventListener('load', () => {
+            createStars();
+            animateStars();
+        });
+    </script>
+</body>
+</html>
